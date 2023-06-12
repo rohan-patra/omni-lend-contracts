@@ -16955,11 +16955,15 @@ const spokeABI = {
 }.abi;
 
 const mumbaiBridgeAddress = "0x0CBE91CF822c73C2315FB05100C2F714765d5c20";
+const mumbaiTokenBridgeAddress = "0x377D55a7928c046E18eEbb61977e714d2a76472a";
+const LINK_TOKEN_ADDRESS = "0x326C977E6efc84E512bB9C30f76E30c160eD06FB";
 
 export default function Home() {
   const [msg, setMsg] = useState("");
   const [input, setInput] = useState("");
   const [account, setAccount] = useState(null);
+  const [vaa, setVAA] = useState("");
+  const [txhash, setTXHash] = useState("0xb8a0e6a8a74512684ff87380147dddf25edbc10f7c2df0284fe92b14e498234e");
 
   useEffect(() => {
     // connectWallet();
@@ -17009,7 +17013,7 @@ export default function Home() {
       const rates1 = [0, 0];
 
       try {
-        const response = await contract.registerAsset("0x326C977E6efc84E512bB9C30f76E30c160eD06FB",
+        const response = await contract.registerAsset(LINK_TOKEN_ADDRESS,
         1000000,
         1100000,
         1000000,
@@ -17040,10 +17044,12 @@ export default function Home() {
 
       try {
         // deposit matic on mumbai
-        const response = await contract.depositCollateral("0x326C977E6efc84E512bB9C30f76E30c160eD06FB",
+        const response = await contract.depositCollateral(LINK_TOKEN_ADDRESS,
         1000000000000000);
         console.log(response);
+        
 
+        setTXHash(response.hash);
 
       } catch (err) {
         console.log("ERROR", err);
@@ -17070,7 +17076,7 @@ export default function Home() {
 
     console.log(receipt);
 
-      const emitterAddr = getEmitterAddressEth(mumbaiBridgeAddress);
+      const emitterAddr = getEmitterAddressEth(mumbaiTokenBridgeAddress);
       const seq = parseSequenceFromLogEth(receipt, mumbaiBridgeAddress);
       const vaaURL = `https://wormhole-v2-testnet-api.certus.one/v1/signed_vaa/${5}/${emitterAddr}/${seq}`;
       console.log(vaaURL);
@@ -17082,6 +17088,7 @@ export default function Home() {
       }
       console.log("VAA found!");
       console.log(vaaBytes);
+      setVAA(vaaBytes.vaaBytes);
       } catch (err) {
         console.log("ERROR", err);
       }
@@ -17089,7 +17096,7 @@ export default function Home() {
   }
 
 
-  const confirmDeposit = async () => {
+  const confirmDeposit = async (vaa) => {
     if (window.ethereum) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
@@ -17099,20 +17106,18 @@ export default function Home() {
         signer
       );
 
-      const kinks1 = [0, 1000000];
-      const rates1 = [0, 0];
-
       try {
-        const response = await contract.registerAsset("0x326C977E6efc84E512bB9C30f76E30c160eD06FB",
-        1000000,
-        1100000,
-        1000000,
-        kinks1,
-        rates1,
-        0, 
-        1000000,
-        "0xca80ba6dc32e08d06f1aa886011eed1d77c77be9eb761cc10d72b7d0a2fd57a6");
+        console.log(vaa)
+        console.log(ethers.utils.isBytes(vaa))
+        console.log(ethers.utils.isHexString(vaa))
+        console.log(ethers.utils.isBytesLike(vaa))
+        const newVAA = Buffer.from(vaa, "base64").toString("hex")
+        console.log(newVAA)
+        const response = await contract.completeDeposit(`0x${newVAA}`);
         console.log(response);
+        console.log('done!')
+        const assets = await contract.getTotalAssetsDeposited(LINK_TOKEN_ADDRESS);
+        console.log(assets);
       } catch (err) {
         console.log("ERROR", err);
       }
@@ -17156,7 +17161,8 @@ export default function Home() {
 
         <button onClick={depositSpoke}>deposit spoke</button>
 
-        <button onClick={() => getSequence("0xebe530d8855b0f4e831ee61e13ebee9f96513bd1952c4224de76f5e6f8be0bb9")}>get sequence</button>
+        <button onClick={() => getSequence(txhash)}>get sequence</button>
+        <button onClick={() => confirmDeposit(vaa)}>confirm deposit</button>
 
         {/* <button onClick={getMessage}>get message</button> */}
       </div>
