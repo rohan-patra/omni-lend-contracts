@@ -1,7 +1,7 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
+  "name": "ihopethisworks",
   "private": true,
+  "version": "0.1.0",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,17 +9,40 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@certusone/wormhole-sdk": "^0.9.18",
-    "@mysten/sui.js": "^0.36.0",
-    "base58-js": "^2.0.0",
-    "ethers": "^5.7.2",
-    "next": "13.4.4",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "ts-node": "^10.9.1"
+    "@hookform/resolvers": "^3.3.4",
+    "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-progress": "^1.0.3",
+    "@radix-ui/react-select": "^2.0.0",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-tabs": "^1.0.4",
+    "@rainbow-me/rainbowkit": "^2.0.5",
+    "@tanstack/react-query": "^5.28.4",
+    "@vercel/analytics": "^1.2.2",
+    "chart.js": "^4.4.3",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "ethers": "^6.13.0",
+    "lucide-react": "^0.372.0",
+    "next": "^14.1.3",
+    "next-themes": "^0.3.0",
+    "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.3",
+    "tailwind-merge": "^2.3.0",
+    "tailwindcss-animate": "^1.0.7",
+    "viem": "^2.8.12",
+    "wagmi": "^2.5.11",
+    "zod": "^3.22.5"
   },
   "devDependencies": {
-    "@types/react": "18.2.13",
-    "typescript": "5.1.3"
+    "@types/node": "^18.19.3",
+    "@types/react": "^18.2.64",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8.15.0",
+    "eslint-config-next": "^14.1.3",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3",
+    "typescript": "5.4.2"
   }
 }

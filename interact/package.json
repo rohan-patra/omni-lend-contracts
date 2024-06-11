@@ -1,0 +1,25 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@certusone/wormhole-sdk": "^0.9.18",
+    "@mysten/sui.js": "^0.36.0",
+    "base58-js": "^2.0.0",
+    "ethers": "^5.7.2",
+    "next": "13.4.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "@types/react": "18.2.13",
+    "typescript": "5.1.3"
+  }
+}
